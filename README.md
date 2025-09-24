@@ -2,7 +2,7 @@
 
 Data processing, statistical analysis, and graph intelligence for open-source investigations.
 
-## Architecture
+## Core Architecture
 
 DataTable (JSON/CSV/XML)
     → 
