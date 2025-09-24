@@ -11,23 +11,17 @@ using nlohmann::json;
 
 /**
  * class DataTable
- * brief Universal table structure based on nlohmann::json.
+ * Universal table structure based on nlohmann::json.
  *
  * Internally stores data as JSON:
  * - An array of rows
  * - Each row is a JSON object (key -> value)
- *
- * Example:
- * [
- *   { "name": "Alice", "age": 30 },
- *   { "name": "Bob",   "age": 25 }
- * ]
  */
 class DataTable {
 public:
     DataTable() = default;
 
-    // --- Loaders (convert to JSON internally) ---
+    // Loaders (convert to JSON internally)
     bool loadFromJSON(const std::string& path);
     bool loadFromCSV(const std::string& path);
     bool loadFromHTML(const std::string& path);
@@ -38,32 +32,34 @@ public:
     // Unified loader
     bool loadFrom(const std::string& source, const std::string& format);
 
-    // --- Saver ---
+    // Saver
     bool saveToJSON(const std::string& path) const;
 
-    // --- Export for visualization ---
-    std::string toHTML() const;  ///< Convert JSON table into <table> HTML string
+    // Convert JSON table into <table> HTML string for visualization
+    std::string toHTML() const;
 
-    // --- Cleaning ---
+    // Cleaning
     void removeDuplicates();
     void removeNulls(const std::string& column);
     void filter(const std::string& column, const nlohmann::json& value);
 
-    // --- Accessors ---
+    // Accessors
     nlohmann::json column(const std::string& name) const;
     int rowCount() const;
 
-    // --- Direct access to JSON ---
+    // Direct access to JSON
     const nlohmann::json& raw() const { return m_data; }
     nlohmann::json& raw() { return m_data; }
 
 private:
-    nlohmann::json m_data; ///< Internal storage (array of objects)
+    // Internal storage (array of objects)
+    nlohmann::json m_data;
 };
 
-//
-// --- Analyzer ---
-//
+/**
+ * @lass Analyzer
+ *  Data analysis and statistics utilities
+ */
 class Analyzer {
 public:
     // Calculate arithmetic mean
@@ -85,9 +81,10 @@ public:
     std::vector<int> zScoreDetect(const json& column, double threshold = 3.0);
 };
 
-//
-// --- GraphEngine ---
-//
+/**
+ * class GraphEngine
+ * Graph algorithms and network analysis
+ */
 class GraphEngine {
 public:
     // Add an edge between two nodes
@@ -110,9 +107,10 @@ private:
     std::map<std::string, std::set<std::string>> m_adj;
 };
 
-//
-// --- Core Facade ---
-//
+/**
+ * Class Core
+ * Main facade class providing access to all components
+ */
 class Core {
 public:
     Core();
@@ -127,7 +125,12 @@ public:
     GraphEngine& graph();
 
 private:
-    DataTable m_data;       ///< table data manager
-    Analyzer m_analyzer;    ///< data analytics
-    GraphEngine m_graph;    ///< graph algorithms
+    // table data manager
+    DataTable m_data;
+
+    // data analytics
+    Analyzer m_analyzer;
+
+    // graph algorithms
+    GraphEngine m_graph;
 };
